@@ -1,0 +1,51 @@
+parameters:
+  - name: dotNetVersion
+    type: string
+    default: '9.x'
+  - name: solutionFolder
+    type: string
+  - name: solutionPattern
+    type: string
+    default: '**/*.sln'
+
+steps:
+- task: UseDotNet@2
+  displayName: Set .NET ${{ parameters.dotNetVersion }}
+  inputs:
+    version: ${{ parameters.dotNetVersion }}
+
+- task: DotNetCoreCLI@2
+  displayName: Restore NuGet packages
+  inputs:
+    workingDirectory: ${{ parameters.solutionFolder }}
+    command: restore
+    projects: ${{ parameters.solutionPattern }}
+    arguments: >-
+      --configuration Debug
+      --no-restore
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    workingDirectory: ${{ parameters.solutionFolder }}
+    command: build
+    projects: ${{ parameters.solutionPattern }}
+    arguments: >-
+      --configuration Debug
+      --no-restore
+
+- task: DotNetCoreCLI@2
+  displayName: Run Tests
+  inputs:
+    workingDirectory: ${{ parameters.solutionFolder }}
+    command: test
+    projects: ${{ parameters.solutionPattern }}
+    arguments: >-
+      --configuration Debug
+      --no-build
+
+- task: PublishTestResults@2
+  displayName: Publish Test Results
+  inputs:
+    testResultsFormat: XUnit
+    testResultsFiles: '**/test*.xml'

@@ -1,0 +1,29 @@
+parameters:
+  - name: dotNetVersion
+    type: string
+    default: '9.x'
+  - name: solutionFolder
+    type: string
+  - name: solutionPattern
+    type: string
+    default: '**/*.sln'
+  - name: buildConfiguration
+    type: string
+    values:
+      - Debug
+      - Release
+  - name: artifactName
+    type: string
+    default: 'app'
+
+jobs:
+  - job: Build
+    displayName: Build Application
+    steps:
+      - template: ../steps/build.yml
+        parameters:
+          dotNetVersion: ${{ parameters.dotNetVersion }}
+          solutionFolder: ${{ parameters.solutionFolder }}
+          solutionPattern: ${{ parameters.solutionPattern }}
+          buildConfiguration: ${{ parameters.buildConfiguration }}
+          artifactName: ${{ parameters.artifactName }}

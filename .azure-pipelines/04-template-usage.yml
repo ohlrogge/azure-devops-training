@@ -1,0 +1,22 @@
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest # ubuntu 2404 has issues with .NET
+
+variables:
+  - name: solutionFolder
+    value: $(Build.SourcesDirectory)/src
+  - name: solutionPattern
+    value: '**/*.sln' # Usually only Patterns must be in quotes
+  - name: artifactName
+    value: app
+
+steps:
+- template: ./steps/build.yml
+  parameters:
+    dotNetVersion: '9.x'
+    solutionFolder: $(solutionFolder)
+    solutionPattern: $(solutionPattern)
+    buildConfiguration: Release
+    artifactName: $(artifactName)
