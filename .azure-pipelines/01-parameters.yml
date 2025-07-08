@@ -29,7 +29,7 @@ steps:
 - bash: |
     echo "This step runs only if the boolean parameter is true."
   displayName: Run if boolean parameter is true
-  condition: eq(parameters.booleanParam, true)
+  condition: ${{ eq(parameters.booleanParam, true) }}
 
 - ${{ if eq(parameters.booleanParam, true) }}:
     - bash: |

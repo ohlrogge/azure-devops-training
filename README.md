@@ -1,5 +1,7 @@
 # Azure DevOps Training: Tasks for Azure Pipelines
 
+This repository contains tasks to learn how to use Azure Pipelines in Azure DevOps. The tasks are designed to be completed in order, starting with a simple pipeline and gradually introducing more advanced features.
+
 ## Task 00: Starter pipeline
 
 > Learning goal: Understand the basic structure of an Azure DevOps pipeline and how to run scripts.
