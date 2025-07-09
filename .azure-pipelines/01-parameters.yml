@@ -10,11 +10,11 @@ parameters:
     default: true
   - name: stringParam
     type: string
-    default: 'option1'
+    default: option1
     values:
-      - 'option1'
-      - 'option2'
-      - 'option3'
+      - option1
+      - option2
+      - option3
   - name: numberParam
     type: number
     default: 42
@@ -24,7 +24,7 @@ steps:
     echo "Boolean Parameter: ${{ parameters.booleanParam }}"
     echo "String Parameter: ${{ parameters.stringParam }}"
     echo "Number Parameter: ${{ parameters.numberParam }}"
-  displayName: 'Display Parameters'
+  displayName: Display Parameters
 
 - bash: |
     echo "This step runs only if the boolean parameter is true."
@@ -38,4 +38,4 @@ steps:
 
 - bash: |
     echo "More template expressions can be found in the documentation: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/template-expressions?view=azure-devops"
-  displayName: 'More Template Expressions'
+  displayName: More Template Expressions
