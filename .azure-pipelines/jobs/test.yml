@@ -7,23 +7,13 @@ parameters:
   - name: solutionPattern
     type: string
     default: '**/*.sln'
-  - name: buildConfiguration
-    type: string
-    values:
-      - Debug
-      - Release
-  - name: artifactName
-    type: string
-    default: app
 
 jobs:
-  - job: Build
-    displayName: Build Application
+  - job: Test
+    displayName: Test Application
     steps:
-      - template: ../steps/build.yml
+      - template: ../steps/test.yml
         parameters:
           dotNetVersion: ${{ parameters.dotNetVersion }}
           solutionFolder: ${{ parameters.solutionFolder }}
           solutionPattern: ${{ parameters.solutionPattern }}
-          buildConfiguration: ${{ parameters.buildConfiguration }}
-          artifactName: ${{ parameters.artifactName }}

@@ -37,7 +37,7 @@ stages:
     displayName: Deploy
     dependsOn: Build
     jobs:
-      - template: ./jobs/deploy.yml
+      - template: ./jobs/deploy-no-dependencies.yml
         parameters:
           azureSubscription: $(azureSubscription)
           azureWebAppName: $(azureWebAppName)
