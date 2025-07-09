@@ -14,7 +14,7 @@ parameters:
       - Release
   - name: artifactName
     type: string
-    default: 'app'
+    default: app
 
 steps:
 # Set .NET version

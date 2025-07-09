@@ -51,4 +51,4 @@ steps:
   inputs:
     targetPath: $(Build.ArtifactStagingDirectory)
     artifactName: $(artifactName)
-    publishLocation: 'pipeline'
+    publishLocation: pipeline
