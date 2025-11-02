@@ -17,8 +17,8 @@ variables:
     value: 101r
 
 stages:
-  - stage: Build
-    displayName: Build
+  - stage: BuildAndTest
+    displayName: Build & Test
     jobs:
       - template: ./jobs/build.yml
         parameters:
