@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
@@ -14,18 +14,18 @@ variables:
     value: 42
 
 steps:
-- bash: |
-    echo "Boolean Parameter: $(booleanVar)"
-    echo "String Parameter: $(stringVar)"
-    echo "Number Parameter: $(numberVar)"
-  displayName: Display Variables
+  - bash: |
+      echo "Boolean Parameter: $(booleanVar)"
+      echo "String Parameter: $(stringVar)"
+      echo "Number Parameter: $(numberVar)"
+    displayName: Display Variables
 
-- bash: |
-    echo "This step runs only if the boolean parameter is true."
-  displayName: Run if boolean variable is true
-  condition: eq(variables.booleanVar, true)
+  - bash: |
+      echo "This step runs only if the boolean parameter is true."
+    displayName: Run if boolean variable is true
+    condition: eq(variables.booleanVar, true)
 
-- bash: |
-    echo "Secret Variable: $(secret)"
-    echo "Non-Secret Variable: $(non-secret)"
-  displayName: Display Secret and Non-Secret Variables
+  - bash: |
+      echo "Secret Variable: $(secret)"
+      echo "Non-Secret Variable: $(non-secret)"
+    displayName: Display Secret and Non-Secret Variables

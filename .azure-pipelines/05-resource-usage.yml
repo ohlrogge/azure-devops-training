@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: windows-latest # ubuntu 2404 has issues with .NET
@@ -20,10 +20,10 @@ variables:
     value: app
 
 steps:
-- template: .azure-pipelines/steps/build.yml@templates
-  parameters:
-    dotNetVersion: '9.x'
-    solutionFolder: $(solutionFolder)
-    solutionPattern: $(solutionPattern)
-    buildConfiguration: Release
-    artifactName: $(artifactName)
+  - template: .azure-pipelines/steps/build.yml@templates
+    parameters:
+      dotNetVersion: '9.x'
+      solutionFolder: $(solutionFolder)
+      solutionPattern: $(solutionPattern)
+      buildConfiguration: Release
+      artifactName: $(artifactName)

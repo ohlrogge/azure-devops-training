@@ -101,12 +101,12 @@ The folder structure should be organized in a way that reflects the purpose of t
 For editing Azure DevOps YAML files in Visual Studio Code, I recommend the following setup:
 
 - Use the [Azure Pipelines extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azure-devops.azure-pipelines) to get syntax highlighting and validation.
-- For this I recommend to organize your git repositories locally by your Azure DevOps organization, e.g. `C:\git\my-organization\my-project\`
-- Create in the organization folder a file called `ado-pipelines-schema.json` with the content of the schema from your Azure DevOps organization, e.g. `https://dev.azure.com/ohlrogge/_apis/distributedtask/yamlschema`.
--  Edit your workspace's settings.json (Preferences Open User Settings) to include this:
 
 ```json
-"azure-pipelines.customSchemaFile": "../ado-pipelines-schema.json",
+"files.associations": {
+  "**/*.yml": "azure-pipelines"
+},
+"azure-pipelines.tenant": "your-tenant-id",
 "[azure-pipelines]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
 },
@@ -117,4 +117,4 @@ For editing Azure DevOps YAML files in Visual Studio Code, I recommend the follo
 - Use [GitVersion](https://github.com/GitTools/actions/blob/main/docs/examples/azure/gitversion/index.md) to automatically generate semantic versioning based on your git history and commit messages.
 - Gitversion template is based on [semvver](https://semver.org/) 
 - Write your commit messages according to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
-- Configure your pipeline to use the GitVersion task to set the version variables.
+- Configure your pipeline to use the [GitVersion task](https://marketplace.visualstudio.com/items?itemName=gittools.gittools) to set the version variables.

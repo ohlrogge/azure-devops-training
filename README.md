@@ -54,22 +54,25 @@ Update the variables pipeline to build a simple Blazor application.
 
 1. Prepare a sample project in your repository. This requires .NET Core SDK installed on your machine. If you don't have it installed, you can use the [official .NET installation guide](https://dotnet.microsoft.com/en-us/download/dotnet).
 1. Create the sample project in your repository using the following commands:
-    ```bash
-    # Create src folder
-    mkdir src
-    # Create a new solution
-    cd src && dotnet new sln -n Training
-    # Create a folder for the sample project
-    mkdir BlazorApp
-    # Create a new blazor app
-    cd BlazorApp && dotnet new blazor
-    # Add the project to the solution
-    cd .. && dotnet sln add BlazorApp/BlazorApp.csproj
-    ```
+
+   ```bash
+   # Create src folder
+   mkdir src
+   # Create a new solution
+   cd src && dotnet new sln -n Training
+   # Create a folder for the sample project
+   mkdir BlazorApp
+   # Create a new blazor app
+   cd BlazorApp && dotnet new blazor
+   # Add the project to the solution
+   cd .. && dotnet sln add BlazorApp/BlazorApp.csproj
+   ```
+
 1. Clear the starter pipeline and add variables for the `solutionFolder` using the predefined variable `Build.SourcesDirectory`, the `solutionPattern` and an `artifactName`.
 1. Add tasks to the pipeline:
    1. Set up the .NET Core SDK version
    1. Convert the following commands into pipeline tasks:
+
       ```bash
       # Restore dependencies
       dotnet restore
@@ -78,6 +81,7 @@ Update the variables pipeline to build a simple Blazor application.
       # Create the artifact
         dotnet publish --configuration Release --no-build --output $TEMP
       ```
+
    1. Publish the artifact as Pipeline artifact with the name defined in the variable `artifactName`.
 1. Run the pipeline and verify that the artifact can be downloaded and contains the published Blazor app.
 

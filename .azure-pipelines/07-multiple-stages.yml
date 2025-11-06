@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: windows-latest # ubuntu 2404 has issues with .NET
@@ -32,7 +32,7 @@ stages:
         parameters:
           solutionFolder: $(solutionFolder)
           solutionPattern: $(solutionPattern)
-      
+
   - stage: Deploy
     displayName: Deploy
     dependsOn: Build

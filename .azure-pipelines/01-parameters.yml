@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
@@ -20,22 +20,22 @@ parameters:
     default: 42
 
 steps:
-- bash: |
-    echo "Boolean Parameter: ${{ parameters.booleanParam }}"
-    echo "String Parameter: ${{ parameters.stringParam }}"
-    echo "Number Parameter: ${{ parameters.numberParam }}"
-  displayName: Display Parameters
+  - bash: |
+      echo "Boolean Parameter: ${{ parameters.booleanParam }}"
+      echo "String Parameter: ${{ parameters.stringParam }}"
+      echo "Number Parameter: ${{ parameters.numberParam }}"
+    displayName: Display Parameters
 
-- bash: |
-    echo "This step runs only if the boolean parameter is true."
-  displayName: Run if boolean parameter is true
-  condition: ${{ eq(parameters.booleanParam, true) }}
+  - bash: |
+      echo "This step runs only if the boolean parameter is true."
+    displayName: Run if boolean parameter is true
+    condition: ${{ eq(parameters.booleanParam, true) }}
 
-- ${{ if eq(parameters.booleanParam, true) }}:
-    - bash: |
-        echo "This step shows only if the boolean parameter is true."
-      displayName: Show if boolean parameter is true
+  - ${{ if eq(parameters.booleanParam, true) }}:
+      - bash: |
+          echo "This step shows only if the boolean parameter is true."
+        displayName: Show if boolean parameter is true
 
-- bash: |
-    echo "More template expressions can be found in the documentation: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/template-expressions?view=azure-devops"
-  displayName: More Template Expressions
+  - bash: |
+      echo "More template expressions can be found in the documentation: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/template-expressions?view=azure-devops"
+    displayName: More Template Expressions

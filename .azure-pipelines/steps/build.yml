@@ -17,50 +17,50 @@ parameters:
     default: app
 
 steps:
-# Set .NET version
-- task: UseDotNet@2
-  displayName: Set .NET ${{ parameters.dotNetVersion }}
-  inputs:
-    version: ${{ parameters.dotNetVersion }}
+  # Set .NET version
+  - task: UseDotNet@2
+    displayName: Set .NET ${{ parameters.dotNetVersion }}
+    inputs:
+      version: ${{ parameters.dotNetVersion }}
 
-# Restore NuGet packages
-- task: DotNetCoreCLI@2
-  displayName: Restore NuGet packages
-  inputs:
-    workingDirectory: ${{ parameters.solutionFolder }}
-    command: restore
-    projects: ${{ parameters.solutionPattern }}
-    arguments: >-
-      --configuration ${{ parameters.buildConfiguration }}
-      --no-restore
+  # Restore NuGet packages
+  - task: DotNetCoreCLI@2
+    displayName: Restore NuGet packages
+    inputs:
+      workingDirectory: ${{ parameters.solutionFolder }}
+      command: restore
+      projects: ${{ parameters.solutionPattern }}
+      arguments: >-
+        --configuration ${{ parameters.buildConfiguration }}
+        --no-restore
 
-# Build the application
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    workingDirectory: ${{ parameters.solutionFolder }}
-    command: build
-    projects: ${{ parameters.solutionPattern }}
-    arguments: >-
-      --configuration ${{ parameters.buildConfiguration }}
-      --no-restore
+  # Build the application
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      workingDirectory: ${{ parameters.solutionFolder }}
+      command: build
+      projects: ${{ parameters.solutionPattern }}
+      arguments: >-
+        --configuration ${{ parameters.buildConfiguration }}
+        --no-restore
 
-# Create artifact
-- task: DotNetCoreCLI@2
-  displayName: Create Artifact
-  inputs:
-    workingDirectory: ${{ parameters.solutionFolder }}
-    command: publish
-    projects: ${{ parameters.solutionPattern }}
-    arguments: >-
-      --configuration ${{ parameters.buildConfiguration }}
-      --no-restore
-      --output $(Build.ArtifactStagingDirectory)
+  # Create artifact
+  - task: DotNetCoreCLI@2
+    displayName: Create Artifact
+    inputs:
+      workingDirectory: ${{ parameters.solutionFolder }}
+      command: publish
+      projects: ${{ parameters.solutionPattern }}
+      arguments: >-
+        --configuration ${{ parameters.buildConfiguration }}
+        --no-restore
+        --output $(Build.ArtifactStagingDirectory)
 
-# Publish the application
-- task: PublishPipelineArtifact@1
-  displayName: Publish Artifact
-  inputs:
-    targetPath: $(Build.ArtifactStagingDirectory)
-    artifactName: ${{ parameters.artifactName }}
-    publishLocation: pipeline
+  # Publish the application
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Artifact
+    inputs:
+      targetPath: $(Build.ArtifactStagingDirectory)
+      artifactName: ${{ parameters.artifactName }}
+      publishLocation: pipeline

@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: windows-latest # ubuntu 2404 has issues with .NET
@@ -13,42 +13,42 @@ variables:
     value: app
 
 steps:
-- task: UseDotNet@2
-  displayName: Set .NET Version
-  inputs:
-    version: '9.x'
+  - task: UseDotNet@2
+    displayName: Set .NET Version
+    inputs:
+      version: '9.x'
 
-- task: DotNetCoreCLI@2
-  displayName: Restore NuGet packages
-  inputs:
-    workingDirectory: $(solutionFolder)
-    command: restore
-    projects: $(solutionPattern)
+  - task: DotNetCoreCLI@2
+    displayName: Restore NuGet packages
+    inputs:
+      workingDirectory: $(solutionFolder)
+      command: restore
+      projects: $(solutionPattern)
 
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    workingDirectory: $(solutionFolder)
-    command: build
-    projects: $(solutionPattern)
-    arguments: >-
-     --configuration Release
-     --no-restore
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      workingDirectory: $(solutionFolder)
+      command: build
+      projects: $(solutionPattern)
+      arguments: >-
+        --configuration Release
+        --no-restore
 
-- task: DotNetCoreCLI@2
-  displayName: Create Artifact
-  inputs:
-    workingDirectory: $(solutionFolder)
-    command: publish
-    projects: $(solutionPattern)
-    arguments: >-
-     --configuration Release
-     --no-restore
-     --output $(Build.ArtifactStagingDirectory)
+  - task: DotNetCoreCLI@2
+    displayName: Create Artifact
+    inputs:
+      workingDirectory: $(solutionFolder)
+      command: publish
+      projects: $(solutionPattern)
+      arguments: >-
+        --configuration Release
+        --no-restore
+        --output $(Build.ArtifactStagingDirectory)
 
-- task: PublishPipelineArtifact@1
-  displayName: Publish Artifact
-  inputs:
-    targetPath: $(Build.ArtifactStagingDirectory)
-    artifactName: $(artifactName)
-    publishLocation: pipeline
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Artifact
+    inputs:
+      targetPath: $(Build.ArtifactStagingDirectory)
+      artifactName: $(artifactName)
+      publishLocation: pipeline

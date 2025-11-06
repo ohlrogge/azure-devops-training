@@ -1,5 +1,5 @@
 trigger:
-- main
+  - main
 
 pool:
   vmImage: windows-latest # ubuntu 2404 has issues with .NET
@@ -17,16 +17,16 @@ variables:
     value: 101r
 
 jobs:
-- template: ./jobs/build.yml
-  parameters:
-    dotNetVersion: '9.x'
-    solutionFolder: $(solutionFolder)
-    solutionPattern: $(solutionPattern)
-    buildConfiguration: Release
-    artifactName: $(artifactName)
+  - template: ./jobs/build.yml
+    parameters:
+      dotNetVersion: '9.x'
+      solutionFolder: $(solutionFolder)
+      solutionPattern: $(solutionPattern)
+      buildConfiguration: Release
+      artifactName: $(artifactName)
 
-- template: ./jobs/deploy.yml
-  parameters:
-    azureSubscription: $(azureSubscription)
-    azureWebAppName: $(azureWebAppName)
-    artifactName: $(artifactName)
+  - template: ./jobs/deploy.yml
+    parameters:
+      azureSubscription: $(azureSubscription)
+      azureWebAppName: $(azureWebAppName)
+      artifactName: $(artifactName)

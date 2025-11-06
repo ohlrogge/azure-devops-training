@@ -4,18 +4,18 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-# Run a script in the default command shell of the os. On linux agent, this is bash. On windows agent, this is cmd.
-# To run a script in a specific shell, use the `bash` or `pwsh` task.
-- script: echo Hello, world!
-  displayName: Run a one-line script
+  # Run a script in the default command shell of the os. On linux agent, this is bash. On windows agent, this is cmd.
+  # To run a script in a specific shell, use the `bash` or `pwsh` task.
+  - script: echo Hello, world!
+    displayName: Run a one-line script
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: Run a multi-line script
+  - script: |
+      echo Add other tasks to build, test, and deploy your project.
+      echo See https://aka.ms/yaml
+    displayName: Run a multi-line script
