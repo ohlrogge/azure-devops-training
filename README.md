@@ -21,9 +21,16 @@ To run a script in a specific shell, you can use the `bash` or `pwsh` task, depe
 
 ## Task 01: Parameters
 
-> Learning goal: Understand how to use parameters in Azure Pipelines.
+> Learning goal: Understand how to use parameters, conditions and expressions in Azure Pipelines.
 
 Update the starter pipeline to use the `parameters` feature of Azure Pipelines.
+
+1. Move the starter pipeline `.azure-pipelines/main.yml`. I generally recommend to use this dedicated folder for all pipeline YAML files. The `.` prefix shows that it's a config folder.
+
+   ```bash
+   mkdir .azure-pipelines
+   mv azure-pipelines.yml .azure-pipelines/main.yml
+   ```
 
 1. Add `boolean` parameter.
 1. Add `string` parameter with default value and allowed values.
@@ -79,7 +86,7 @@ Update the variables pipeline to build a simple Blazor application.
       # Build the project
       dotnet build --configuration Release --no-restore
       # Create the artifact
-        dotnet publish --configuration Release --no-build --output $TEMP
+      dotnet publish --configuration Release --no-build --output $TEMP
       ```
 
    1. Publish the artifact as Pipeline artifact with the name defined in the variable `artifactName`.
@@ -127,3 +134,39 @@ Create a `build and test` stage and a `deploy` stage in the pipeline.
 1. Create a job and steps template to test the application in parallel to the build.
 1. Wrap your job templates in stages, one for the build and test and one for the deployment. The build and test jobs should run in parallel. It's not necessary to create stage templates.
 1. Run the pipeline and verify that the build and test jobs run in parallel and the deployment job runs after the build and test jobs have completed successfully.
+
+## Task 08: Implement approvals and checks
+
+> Learning goal: Understand how to use approvals and checks in Azure Pipelines.
+
+Change the deploy job to use the [environment feature](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/environments?view=azure-devops#target-an-environment-from-a-deployment-job) of Azure Pipelines and add an approval before deployment.
+
+1. Create an environment in Azure DevOps name it `{web-app-name}-environment`.
+1. Add an approval check to the environment that requires your user to approve the deployment.
+1. Change the deploy job to target the environment.
+1. Run the pipeline and verify that the deployment job waits for your approval before deploying the application.
+
+> Remark: The deployment job type automatically downloads the artifact, so you can remove the download artifact task from the deploy job.
+
+## Task 09: Implement PR trigger
+
+> Learning goal: Understand how to use PR triggers in Azure Pipelines.
+
+Update the pipeline to trigger on pull requests.
+
+1. Add a new trigger for pull requests in the pipeline YAML file.
+1. Specify the branch `main` to be included for the PR trigger.
+1. Protect the `main` branch in the repository settings and require the pipeline to pass before merging.
+1. Create a pull request and verify that the pipeline is triggered.
+
+## Task 10: Automated versioning and tagging
+
+> Learning goal: Understand how to implement automated versioning and tagging in Azure Pipelines.
+
+Update the pipeline to automatically version and tag the commit on successful deployment.
+
+1. Inspect the versioning and tagging implementation in the training repository.
+1. Include the versioning and tagging templates for builds running on the `main` branch.
+1. The tagging stage should depend on the `Deploy` stage and run only if the deployment was successful.
+
+> Remark: Read the [documentation for consuming variables from other stages](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/variables?view=azure-devops&tabs=yaml%2Cbatch#use-outputs-in-a-different-stage).

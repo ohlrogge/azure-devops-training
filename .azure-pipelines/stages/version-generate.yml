@@ -1,0 +1,55 @@
+stages:
+  - stage: VersionStage
+    displayName: Get Version
+    jobs:
+      - job: VersionJob
+        displayName: Determine Version & Validate
+        workspace:
+          clean: all
+        steps:
+          - checkout: self
+            fetchDepth: 0
+
+          - task: NuGetAuthenticate@1
+
+          - task: gitversion-setup@4
+            displayName: Install GitVersion
+            inputs:
+              versionSpec: 6.4.x
+              preferLatestVersion: true
+
+
+          - task: PowerShell@2
+            displayName: Create GitVersion Configuration File
+            inputs:
+              targetType: inline
+              pwsh: true
+              script: |
+                $FilePath = "$(System.DefaultWorkingDirectory)/GitVersion.yml"
+                $FileContent = @"
+                workflow: GitHubFlow/v1
+                mode: ContinuousDeployment
+                strategies:
+                - Fallback
+                - TaggedCommit
+                major-version-bump-message: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w\s,\/\\-]*\))?(!:|:.*\n\n((.+\n)+\n)?BREAKING CHANGE:\s.+)'
+                minor-version-bump-message: '^(feat)(\([\w\s,\/\\-]*\))?:'
+                patch-version-bump-message: '^(build|chore|ci|docs|fix|perf|refactor|revert|style|test)(\([\w\s,\/\\-]*\))?:'
+                "@
+
+                Write-Host "##[section]Creating GitVersion configuration file at $FilePath ..."
+                Write-Host "File content:"
+                Write-Host $FileContent
+                Set-Content -Path $FilePath -Value $FileContent -Force | Out-Null
+                Write-Host "Configuration file created successfully."
+                Write-Host ""
+                Write-Host "The configuration applies GitHub Flow and Conventional Commits."
+                Write-Host "Conventional Commits: https://www.conventionalcommits.org/"
+                Write-Host "Github Flow: https://githubflow.github.io/"
+
+          - task: gitversion-execute@4.2.0
+            name: VersionStep
+            displayName: Determine Version based on Github Flow & Conventional Commits
+            inputs:
+              useConfigFile: true
+              configFilePath: '$(System.DefaultWorkingDirectory)/GitVersion.yml'

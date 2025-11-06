@@ -1,6 +1,11 @@
 trigger:
   - main
 
+pr:
+  branches:
+    include:
+      - main
+
 pool:
   vmImage: windows-latest # ubuntu 2404 has issues with .NET
 
@@ -17,6 +22,9 @@ variables:
     value: niklas
 
 stages:
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - template: ./stages/version-generate.yml
+
   - stage: BuildAndTest
     displayName: Build & Test
     jobs:
@@ -35,10 +43,24 @@ stages:
 
   - stage: Deploy
     displayName: Deploy
-    dependsOn: BuildAndTest
+    dependsOn:
+      - VersionStage
+      - BuildAndTest
+    variables:
+      - name: version
+        value: $[stageDependencies.VersionStage.VersionJob.outputs['VersionStep.semVer']]
     jobs:
-      - template: ./jobs/deploy-no-dependencies.yml
+      - template: ./jobs/deploy-environments.yml
         parameters:
           azureSubscription: $(azureSubscription)
           azureWebAppName: $(azureWebAppName)
           artifactName: $(artifactName)
+
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+          - job: Tagging
+            displayName: Tag Repository
+            dependsOn: Deploy
+            steps:
+              - template: ./steps/tagging.yml
+                parameters:
+                  tagName: v$(version)

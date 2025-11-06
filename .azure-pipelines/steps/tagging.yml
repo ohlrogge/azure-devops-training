@@ -1,0 +1,27 @@
+parameters:
+  - name: tagName
+    displayName: Tag Name (e.g., v1.0.0)
+    type: string
+
+steps:
+  - checkout: self
+    clean: true
+    fetchDepth: 1
+    fetchTags: true
+    persistCredentials: true
+
+  - task: Bash@3
+    displayName: Tag Version
+    inputs:
+      targetType: inline
+      script: |
+        tag="${{ parameters.tagName }}"
+
+        git config user.email "$(Build.RequestedForEmail)"
+        git config user.name "$(Build.RequestedFor)"
+
+        git tag -a $tag -m "$tag"
+        git push origin $tag
+
+        git config --unset user.email
+        git config --unset user.name

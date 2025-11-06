@@ -14,7 +14,7 @@ variables:
   - name: azureSubscription
     value: training-service-connection
   - name: azureWebAppName
-    value: 101r
+    value: niklas
 
 jobs:
   - template: ./jobs/build.yml

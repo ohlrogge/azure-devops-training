@@ -1,0 +1,25 @@
+parameters:
+  - name: azureSubscription
+    type: string
+    default: training-service-connection
+  - name: artifactName
+    type: string
+  - name: azureWebAppName
+    type: string
+
+jobs:
+  - deployment: Deploy
+    displayName: Deploy Application
+    environment:
+      name: ${{ parameters.azureWebAppName }}-environment
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureWebApp@1
+              displayName: Deploy to Azure Web App
+              inputs:
+                azureSubscription: ${{ parameters.azureSubscription }}
+                appType: webApp
+                appName: ${{ parameters.azureWebAppName }}
+                package: '$(Pipeline.Workspace)/**/*.zip'

@@ -8,7 +8,7 @@ resources:
   repositories:
     - repository: templates
       type: git
-      name: some-other-repo
+      name: some-other-project/some-other-repo
       ref: refs/heads/main
 
 variables:

@@ -1,9 +1,10 @@
 {
-  "files.associations": {
-    "**/*.yml": "azure-pipelines"
-  },
   "azure-pipelines.tenant": "b9676824-73ae-4137-a0d4-cc658704d73d",
   "[azure-pipelines]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "editor.formatOnSave": true,
+  "files.associations": {
+    ".azure-pipelines/**/*.yml": "azure-pipelines"
+  },
 }
