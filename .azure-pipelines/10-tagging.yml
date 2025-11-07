@@ -41,22 +41,23 @@ stages:
           solutionFolder: $(solutionFolder)
           solutionPattern: $(solutionPattern)
 
-  - stage: Deploy
-    displayName: Deploy
-    dependsOn:
-      - VersionStage
-      - BuildAndTest
-    variables:
-      - name: version
-        value: $[stageDependencies.VersionStage.VersionJob.outputs['VersionStep.semVer']]
-    jobs:
-      - template: ./jobs/deploy-environments.yml
-        parameters:
-          azureSubscription: $(azureSubscription)
-          azureWebAppName: $(azureWebAppName)
-          artifactName: $(artifactName)
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+      - stage: Deploy
+        displayName: Deploy
+        dependsOn:
+          - VersionStage
+          - BuildAndTest
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+        variables:
+          - name: version
+            value: $[stageDependencies.VersionStage.VersionJob.outputs['VersionStep.semVer']]
+        jobs:
+          - template: ./jobs/deploy-environments.yml
+            parameters:
+              azureSubscription: $(azureSubscription)
+              azureWebAppName: $(azureWebAppName)
+              artifactName: $(artifactName)
 
-      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
           - job: Tagging
             displayName: Tag Repository
             dependsOn: Deploy

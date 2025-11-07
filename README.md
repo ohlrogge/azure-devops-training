@@ -25,6 +25,7 @@ To run a script in a specific shell, you can use the `bash` or `pwsh` task, depe
 
 Update the starter pipeline to use the `parameters` feature of Azure Pipelines.
 
+1. Checkout the repository locally.
 1. Move the starter pipeline `.azure-pipelines/main.yml`. I generally recommend to use this dedicated folder for all pipeline YAML files. The `.` prefix shows that it's a config folder.
 
    ```bash
@@ -38,7 +39,9 @@ Update the starter pipeline to use the `parameters` feature of Azure Pipelines.
 1. Print the parameters in a task.
 1. Use the task `condition` to run a task only if the boolean parameter is `true`.
 1. Use the `if` expression to show and run a task only if boolean parameter is `true`.
-1. After running the pipeline, download the Raw YAML file of the pipeline and investigate the parameters in the file.
+1. After running the pipeline, view the full YAML file of the pipeline and investigate the parameters in the file.
+
+> Remark: After renaming the pipeline file, you need to update the pipeline settings in Azure DevOps to point to the new file location.
 
 ## Task 02: Variables
 
@@ -51,7 +54,7 @@ Update the parameters pipeline to use the `variables` and `variable groups` feat
 1. Add another variable to the pipeline.
 1. Define a variable that is derived from a parameter using an if expression.
 1. Append to the parameter tasks additional tasks to print the variables.
-1. After running the pipeline, download the Raw YAML file of the pipeline and investigate the variables in the file, compare them with the parameters.
+1. After running the pipeline, view the Full YAML file of the pipeline and investigate the variables in the file, compare them with the parameters.
 
 ## Task 03: Build your first application
 
@@ -78,7 +81,7 @@ Update the variables pipeline to build a simple Blazor application.
 1. Clear the starter pipeline and add variables for the `solutionFolder` using the predefined variable `Build.SourcesDirectory`, the `solutionPattern` and an `artifactName`.
 1. Add tasks to the pipeline:
    1. Set up the .NET Core SDK version
-   1. Convert the following commands into pipeline tasks:
+   1. Convert the following commands into [dotnet core pipeline tasks](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/dotnet-core-cli-v2?view=azure-pipelines):
 
       ```bash
       # Restore dependencies
@@ -109,9 +112,9 @@ Update the build pipeline to use templates.
 
 Update the template pipeline to use another repository as a resource.
 
-1. Instead of using the steps template from your repository, use the steps template from the training repository.
+1. Instead of using the steps template from your repository, use the steps template from the template repository.
 1. Run the pipeline and verify that it works as expected.
-1. Revert the changes to use your original steps template
+1. Revert the changes to use your own steps template
 
 ## Task 06: Use jobs and service connections
 
@@ -131,7 +134,7 @@ Create a jobs template that wraps the steps template from the previous task and 
 Create a `build and test` stage and a `deploy` stage in the pipeline.
 
 1. Copy the current solution from the training repository to your repository.
-1. Create a job and steps template to test the application in parallel to the build.
+1. Create a job that wraps the central test steps template. The job should test the application in parallel to the build.
 1. Wrap your job templates in stages, one for the build and test and one for the deployment. The build and test jobs should run in parallel. It's not necessary to create stage templates.
 1. Run the pipeline and verify that the build and test jobs run in parallel and the deployment job runs after the build and test jobs have completed successfully.
 
@@ -155,7 +158,9 @@ Change the deploy job to use the [environment feature](https://learn.microsoft.c
 Update the pipeline to trigger on pull requests.
 
 1. Add a new trigger for pull requests in the pipeline YAML file.
+1. Create a new branch and make a change to the pipeline file.
 1. Specify the branch `main` to be included for the PR trigger.
+1. Set a condition on the deploy stage to run only on the `main` branch.
 1. Protect the `main` branch in the repository settings and require the pipeline to pass before merging.
 1. Create a pull request and verify that the pipeline is triggered.
 
